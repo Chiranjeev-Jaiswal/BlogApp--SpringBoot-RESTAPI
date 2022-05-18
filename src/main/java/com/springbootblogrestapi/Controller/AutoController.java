@@ -4,6 +4,8 @@ import com.springbootblogrestapi.Entity.Role;
 import com.springbootblogrestapi.Entity.User;
 import com.springbootblogrestapi.Repository.RoleRepository;
 import com.springbootblogrestapi.Repository.UserRepository;
+import com.springbootblogrestapi.Security.JWTTokenProvider;
+import com.springbootblogrestapi.payload.JWTAuthResponse;
 import com.springbootblogrestapi.payload.LoginDto;
 import com.springbootblogrestapi.payload.SignUpDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +40,25 @@ public class AutoController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    @Autowired
+    private JWTTokenProvider tokenProvider;
+
     @PostMapping("/signin")
-    public ResponseEntity<String>authenticateUser(@RequestBody LoginDto loginDto)
+    public ResponseEntity<JWTAuthResponse>authenticateUser(@RequestBody LoginDto loginDto)
     {
       Authentication authentication=  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(),loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("USER SIGNED-IN SUCCESSFULLY", HttpStatus.OK);
+
+        // get token from tokenProvider
+
+        String token= tokenProvider.generateToken(authentication);
+
+
+        return  ResponseEntity.ok(new JWTAuthResponse(token));
+
     }
 
     @PostMapping("/signup")
