@@ -1,11 +1,9 @@
 package com.springbootblogrestapi.Controller;
 
 
-import com.springbootblogrestapi.Entity.Post;
 import com.springbootblogrestapi.Service.PostService;
 import com.springbootblogrestapi.Utils.AppConstants;
 import com.springbootblogrestapi.payload.PostDto;
-import com.springbootblogrestapi.payload.PostDtoV2;
 import com.springbootblogrestapi.payload.PostResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping
